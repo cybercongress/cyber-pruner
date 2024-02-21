@@ -184,6 +184,11 @@ func pruneAppState(home string) error {
 
 	var err error
 
+	if txIdxHeight <= 0 {
+		txIdxHeight = rootmulti.NewStore(appDB).LastCommitID().Version
+		fmt.Printf("[pruneAppState] set txIdxHeight=%d\n", txIdxHeight)
+	}
+
 	fmt.Println("[~] pruning application state")
 
 	keys := getStoreKeys(appDB)
@@ -281,6 +286,16 @@ func pruneTMData(home string) error {
 	}
 
 	pruneHeight := blockStore.Height() - int64(blocks)
+	fmt.Printf("[pruneTMData] pruneHeight=%d\n", pruneHeight)
+	if pruneHeight <= 0 {
+		fmt.Println("[pruneTMData] No need to prune")
+		return nil
+	}
+
+	if txIdxHeight <= 0 {
+		txIdxHeight = blockStore.Height()
+		fmt.Printf("[pruneTMData] set txIdxHeight=%d\n", txIdxHeight)
+	}
 
 	fmt.Println("[~] pruning block store")
 	// prune block store

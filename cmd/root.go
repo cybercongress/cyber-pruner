@@ -44,7 +44,7 @@ func cobraInit(rootCmd *cobra.Command) error {
 		return fmt.Errorf("Error loading config file. %+v", err)
 	}
 	if viper.ConfigFileUsed() != "" {
-		fmt.Printf("\nUsing config file: %+v", viper.ConfigFileUsed())
+		fmt.Printf("\nUsing config file: %+v ", viper.ConfigFileUsed())
 	}
 	// Bind flags from the command line to the viper framework
 	if err := viper.BindPFlags(rootCmd.Flags()); err != nil {
@@ -64,7 +64,7 @@ func NewRootCmd() *cobra.Command {
 	// RootCmd represents the base command when called without any subcommands
 	var rootCmd = &cobra.Command{
 		Use:   appName,
-		Short: "cyberprund is meant to prune data base history from a cosmos application, avoiding needing to state sync every couple amount of weeks",
+		Short: "cyber-pruner is meant to prune data base history from a cosmos application, avoiding needing to state sync every couple amount of weeks",
 	}
 
 	rootCmd.PersistentPreRunE = func(cmd *cobra.Command, _ []string) error {
